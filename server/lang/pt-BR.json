@@ -1,22 +1,16 @@
 {
   "moblet": {
-    "label": "Album pro",
-    "hint": "Crie um album de fotos",
-    "description": "Preencha os campos abaixo para criar o seu album"
+    "label": "Pinterest pro",
+    "hint": "Importe boards do pinterest",
+    "description": "Preencha os campos abaixo para importar seu board"
   },
-  "items": {
-    "label": "Album de fotos",
-    "hint": "Insira fotos no seu album",
-    "list_button": "Adicionar foto"
+  "username": {
+    "label": "Nome de Usuário",
+    "hint": "Insira seu nome de usuário",
   },
-  "title": {
-    "label": "Título",
-    "hint": "Título da imagem",
-    "placeholder": "Meu título"
-  },
-  "description": {
-    "label": "Descrição",
-    "hint": "Preencha com a descricão da sua imagem",
-    "placeholder": "Minha descricão"
+  "board": {
+    "label": "Board",
+    "hint": "Board do pinterest",
+    "placeholder": "board"
   }
 }
