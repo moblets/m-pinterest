@@ -8,11 +8,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moblets/m-list.git"
+    "url": "git+https://github.com/moblets/m-pinterest.git"
   },
   "author": "Leonardo Fonseca Ferreira",
   "license": "MIT",
-  "homepage": "https://github.com/moblets/m-list.git",
+  "homepage": "https://github.com/moblets/m-pinterest.git",
   "devDependencies": {
     "cz-conventional-changelog": "^1.1.6",
     "eslint": "^2.8.0",
