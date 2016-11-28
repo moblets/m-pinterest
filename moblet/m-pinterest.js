@@ -7,12 +7,15 @@ module.exports = {
     pt: "lang/pt-BR.json",
     en: "lang/en-US.json"
   },
-  link: function() {},
+  link: function() {
+    $mInjector.inject('https://assets.pinterest.com/sdk/sdk.js');
+  },
   controller: function(
     $scope,
     $rootScope,
     $filter,
     $timeout,
+    $mRss,
     $state,
     $stateParams,
     $mDataLoader,
@@ -20,6 +23,7 @@ module.exports = {
     $ionicModal,
     $ionicScrollDelegate
   ) {
+    
     var dataLoadOptions;
     var list = {
       /**
@@ -118,24 +122,58 @@ module.exports = {
        * @param {function} callback Callback
        */
       load: function(showLoader, callback) {
-        if ($stateParams.detail === '') {
-          $stateParams.pageTitle = null;
-        }
-        $scope.isLoading = showLoader || false;
-        // Reset the pagination
-        if (showLoader === true || showLoader === undefined) {
-          dataLoadOptions.offset = 0;
-        }
+        // if ($stateParams.detail === '') {
+        //   $stateParams.pageTitle = null;
+        // }
+        // $scope.isLoading = showLoader || false;
+        // // Reset the pagination
+        // if (showLoader === true || showLoader === undefined) {
+        //   dataLoadOptions.offset = 0;
+        // }
         // mDataLoader also saves the response in the local cache. It will be
         // used by the "showDetail" function
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            list.setView(data);
-            if (typeof callback === 'function') {
-              callback();
+            var url = "http://pinterest.com/";
+            if(isDefined(data.username) && data.username !== ""){
+              url += data.username;
+              
+              if(isDefined(data.board) && data.board !== ""){
+                url+="/"+data.board+".rss";
+              } else {
+                url+="/feed.rss";
+              }
+              
+              $mRss.load(url)
+                .then(function(response){
+                  var data = {
+                    items: []
+                  };
+                  var entries = response.data.responseData.feed.entries;
+                  if(entries.length > 0){
+                    for(var i = 0 ; i < entries.length; i ++){
+                      data.items.push(list.parseItem(entries[i]));
+                    }
+                  }
+                  list.setView(data);
+                });
+              
+              
             }
-          }
-        );
+            
+            
+          });
+      },
+      
+      parseItem: function(item){
+        // very much gambi, such a not good code!!! wow
+        var description = item.content.match(/<img\s+src\s*=\s*(["'][^"']+["']|[^>]+)>/)[1].replace(/\"/,"").replace(/\"/,"");
+        var id = item.link.replace("https://www.pinterest.com/pin/","").replace("/","");
+        return {
+          id:id,
+          title:item.title,
+          image:description
+        }
       },
       /**
        * Load more data from the backend if there are more items.
@@ -168,9 +206,7 @@ module.exports = {
       init: function() {
         dataLoadOptions = {
           offset: 0,
-          items: 25,
-          listKey: 'items',
-          cache: ($stateParams.detail !== "")
+          cache: false
         };
         $scope.load(true);
       }
