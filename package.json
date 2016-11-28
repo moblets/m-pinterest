@@ -1,5 +1,5 @@
 {
-  "name": "m-album",
+  "name": "m-pinterest",
   "version": "1.0.0",
   "description": "This is a list moblet for Moblets and FabApp. You can use it as base to create a new one.",
   "main": "server/feed.js",
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/moblets/m-list.git"
   },
-  "author": "Eduardo Russo",
+  "author": "Leonardo Fonseca Ferreira",
   "license": "MIT",
   "homepage": "https://github.com/moblets/m-list.git",
   "devDependencies": {
