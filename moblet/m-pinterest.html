@@ -3,13 +3,13 @@
     <div class="album" ng-if="!isDetail">
       <div class="foto" ng-repeat="item in items" ng-click="goTo(item)">
         <div class="skeleton thumb-size">
-          <div id="img-{{item.id}}" class="thumb" ng-style="{'background-image':'url({{item.image}})'}" ></div>
-          <img id="control-img-{{item.id}}" image-id="{{item.id}}" onload="malbumImageLoaded(this)"  ng-src="{{item.image}}" style="display:none" />
+          <div id="img-{{item.id}}" class="thumb" ng-style="{'background-image':'url({{item.image.original.url}})'}" ></div>
+          <img id="control-img-{{item.id}}" image-id="{{item.id}}" onload="malbumImageLoaded(this)"  ng-src="{{item.image.original.url}}" style="display:none" />
         </div>
       </div>
     </div>
     <div class="detail" ng-if="isDetail">
-      <div class="foto skeleton" ng-style="{'height':imageH}">
+      <div class="foto skeleton">
         <div class="image" ng-class="{'move-out':nextAnimation , 'no-animation':!nextAnimation}" ng-style="getDetailImage(detail)"
           ng-click="openModal()"
         ></div>
@@ -23,16 +23,16 @@
         </div>
       </div>
       <div class="text">
-        <h3 class="title">{{detail.title}}</h3>
-        <p class="description">{{detail.description}}</p>
+        <h3 class="title">{{detail.note}}</h3>
+        <!--<p class="description">{{detail.description}}</p>-->
       </div>
     </div>
-    <script id="mpinterest-zoom-modal.html" type="text/ng-template">
-      <ion-modal-view class="m-pinterest-modal">
+    <script id="malbum-zoom-modal.html" type="text/ng-template">
+      <ion-modal-view class="m-album-modal">
         <ion-content  ng-click="closeModal()">
           <div class="slide-zoom-container">
             <ion-scroll  delegate-handle="m-album-zoom-scroll" zooming="true" overflow-scroll="false" direction="xy">
-              <img class="image" ng-src="{{detail.image}}" />
+              <img class="image" ng-src="{{detail.image.original.url}}" />
             </ion-scroll>
           </div>
         </ion-content>
@@ -40,34 +40,3 @@
     </script>
   </m-content>
 </m-moblet>
-
-
-
-<!-- LIST -->
-<!-- <div class="list" ng-if="!isDetail"> -->
-  
-  <!-- CARD STYLE -->
-  <!-- <div ng-if="isCard" class="item style-card" ng-repeat="(key, item) in items"
-       ng-click="goTo(item)">
-    <h1 ng-bind="item.title"></h1>
-    <p ng-bind-html="stripHtml(item.description) | mCut:100"></p>
-    <img ng-src="{{item.image | mEncoder:'crop':70:114}}" img-resize>
-  </div> -->
-  <!-- LIST ITEM -->
-  <!-- <div ng-if="isList" class="item style-list" ng-repeat="(key, item) in items"
-       ng-click="goTo(item)">
-    <div class="img-container" ng-if="isList">
-      <img ng-src="{{item.image | mEncoder:'crop':70:114}}" img-resize>
-    </div>
-    <h1 ng-bind="item.title"></h1>
-    <p ng-bind-html="stripHtml(item.description) | mCut:60"></p>
-  </div>
-</div> -->
-<!-- Detail -->
-<!-- <div class="detail m-theme-null-background {{ itemStyle }}" ng-if="isDetail">
-  <img class="full-width-image" ng-src="{{detail.image}}">
-  <div class="detail-container">
-    <h1 class="title" ng-bind="detail.title"></h1>
-    <div class="description" m-bind-html="detail.description"></div>
-  </div>
-</div> -->

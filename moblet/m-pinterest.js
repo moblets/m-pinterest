@@ -8,23 +8,21 @@ module.exports = {
     en: "lang/en-US.json"
   },
   link: function() {
-    $mInjector.inject('https://assets.pinterest.com/sdk/sdk.js');
+
   },
-  controller: function(
+   controller: function(
     $scope,
     $rootScope,
     $filter,
     $timeout,
-    $mRss,
     $state,
     $stateParams,
     $mDataLoader,
     $element,
     $ionicModal,
+    $http,
     $ionicScrollDelegate
   ) {
-    
-    
     var dataLoadOptions;
     var list = {
       /**
@@ -39,7 +37,7 @@ module.exports = {
           $scope.emptyData = false;
 
           // If it was called from the "more" function, concatenate the items
-          $scope.items = (more) ? $scope.items.concat(data.items) : data.items;
+          $scope.items = (more) ? $scope.items.concat(data) : data;
 
           // Set "noContent" if the items lenght = 0
           $scope.noContent = $scope.items === undefined ||
@@ -87,7 +85,8 @@ module.exports = {
        */
       showDetail: function(detailIndex) {
         if (isDefined($stateParams.detail) && $stateParams.detail !== "") {
-          $scope.imageH = calculatedImageHeight();
+          // $scope.imageH = calculatedImageHeight();
+          //  $scope.imageH = 400;
           var itemIndex = _.findIndex($scope.items, function(item) {
             return item.id.toString() === $stateParams.detail;
           });
@@ -123,77 +122,28 @@ module.exports = {
        * @param {function} callback Callback
        */
       load: function(showLoader, callback) {
-        // if ($stateParams.detail === '') {
-        //   $stateParams.pageTitle = null;
-        // }
-        // $scope.isLoading = showLoader || false;
-        // // Reset the pagination
-        // if (showLoader === true || showLoader === undefined) {
-        //   dataLoadOptions.offset = 0;
-        // }
+        if ($stateParams.detail === '') {
+          $stateParams.pageTitle = null;
+        }
+        $scope.isLoading = showLoader || false;
+        // Reset the pagination
+        if (showLoader === true || showLoader === undefined) {
+          dataLoadOptions.offset = 0;
+        }
         // mDataLoader also saves the response in the local cache. It will be
         // used by the "showDetail" function
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            var url = "https://ismaelc-pinterest.p.mashape.com/";
-            if(isDefined(data.username) && data.username !== ""){
-              url += data.username;
-              
-              window.PDK.init({
-                  appId: "4870348519875035180", // Change this
-                  cookie: true
-              });
-              
-              var pins = [];
-              
-              window.PDK.me('pins', function (response) { // Make sure to change the board_id
-                if (!response || response.error) {
-                  alert('Error occurred');
-                } else {
-                  pins = pins.concat(response.data);
-                  console.log(pins);
-                  if (response.hasNext) {
-                    response.next(); // this will recursively go to this same callback
-                  }
-                }
-              });
-              
-              // if(isDefined(data.board) && data.board !== ""){
-              //   url+="/"+data.board+"/boards.rss";
-              // } else {
-              //   url+="/feed.rss";
-              // }
-              //
-              // $mRss.load(url)
-              //   .then(function(response){
-              //     var data = {
-              //       items: []
-              //     };
-              //     var entries = response.data.responseData.feed.entries;
-              //     if(entries.length > 0){
-              //       for(var i = 0 ; i < entries.length; i ++){
-              //         data.items.push(list.parseItem(entries[i]));
-              //       }
-              //     }
-              //     list.setView(data);
-              //   });
-              
-              
-            }
-            
-            
-          });
-      },
-      
-      parseItem: function(item){
-        // very much gambi, such a not good code!!! wow
-        var description = item.content.match(/<img\s+src\s*=\s*(["'][^"']+["']|[^>]+)>/)[1].replace(/\"/,"").replace(/\"/,"");
-        var id = item.link.replace("https://www.pinterest.com/pin/","").replace("/","");
-        return {
-          id:id,
-          title:item.title,
-          image:description
-        }
+            var url = "https://api.pinterest.com/v1/boards/"+ data.username + "/" +  data.board + "/pins/?access_token=" + data.token;
+            url += "&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Coriginal_link%2Ccolor%2Cboard%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Cmetadata";
+            $http.get(url).then(function(pins){
+              list.setView(pins.data.data);
+              if (typeof callback === 'function') {
+                callback();
+              }
+            })
+          }
+        );
       },
       /**
        * Load more data from the backend if there are more items.
@@ -225,10 +175,12 @@ module.exports = {
        */
       init: function() {
         dataLoadOptions = {
-          offset: 0,
-          cache: false
+          cache: ($stateParams.detail !== "")
         };
         $scope.load(true);
+        $scope.reload = function(){
+          $scope.load();
+        }
       }
     };
 
@@ -265,51 +217,69 @@ module.exports = {
         return detail.index !== -1 && detail.index < $scope.items.length - 1;
       },
       getDetailImage: function(detail) {
+        var style;
+        if(isDefined(detail.image)){
+          style = "url('" + detail.image.original.url + "')";
+        } else {
+          style = "";
+        }
         return {
-          "background-image": "url('" + detail.image + "')"
+          "background-image": style
         };
       },
       goTo: function(detail) {
-        $stateParams.pageTitle = detail.title;
+        $stateParams.pageTitle = detail.note;
         $stateParams.detail = detail.id;
-        $state.go('pages', $stateParams);
+        $state.go('pages', {
+          detail: detail.id
+        });
       }
     };
 
     var modal = {
       created: function() {
-        $ionicModal.fromTemplateUrl('mpinterest-zoom-modal.html', {
+        $ionicModal.fromTemplateUrl('malbum-zoom-modal.html', {
           scope: $scope,
           hardwareBackButtonClose:true,
           animation: 'scale-in'
         }).then(function(modal) {
           $scope.modal = modal;
+          $scope.modal.hide();
         });
-        $scope.$on('$destroy', function() {
-          $scope.modal.remove();
-        });
+        
         $scope.openModal = function() {
           $scope.modal.show();
         };
+        
         $scope.closeModal = function() {
           $scope.modal.hide();
           $timeout(function(){
-            $ionicScrollDelegate.$getByHandle("m-pinterest-zoom-scroll").zoomTo(1);
+            $ionicScrollDelegate.$getByHandle("m-album-zoom-scroll").zoomTo(1);
           }, 500);
         };
+        
+        $scope.destroyModal = function() {
+          $scope.modal.remove();
+        };
+        
       }
     }
-
+    
     $scope.stripHtml = function(str) {
       return str.replace(/<[^>]+>/ig, " ");
     };
 
-    function calculatedImageHeight() {
-      console.log($element);
-      var frame = parseInt(window.getComputedStyle(document.querySelector("ion-nav-view .pane:last-child .scroll")).height);
-      var descount = 5 * (100 / document.documentElement.clientWidth) + 90;
-      return frame - descount + "px"
-    }
+    // function calculatedImageHeight() {
+    //   console.log($element);
+      
+    //   var top = parseInt(window.getComputedStyle(document.querySelector(".pane[nav-view='active'] ion-content.scroll-content"))["top"]);
+    //   var bottom = parseInt(window.getComputedStyle(document.querySelector(".pane[nav-view='active'] ion-content.scroll-content"))["bottom"]);
+    //   var currentHeight = document.documentElement.clientHeight;
+    //   var frame = currentHeight - top - bottom
+      
+    //   var descount = 5 * (100 / document.documentElement.clientWidth) + 90;
+    //   return frame - descount + "px"
+    // }
 
     window.malbumImageLoaded = function(element) {
       element.parentElement.classList.add("loaded");
@@ -326,6 +296,10 @@ module.exports = {
     $scope.showNext = listItem.showNext;
     $scope.showPrev = listItem.showPrev;
     modal.created();
+
+    $scope.$on('$stateChangeStart', $scope.destroyModal);
+    $scope.$on('$destroy', $scope.destroyModal);
+    
     list.init();
   }
 };
