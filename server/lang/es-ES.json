@@ -4,6 +4,11 @@
     "hint": "Importe boards do pinterest",
     "description": "Preencha os campos abaixo para importar seu board"
   },
+  "token": {
+    "label": "Token de usuario no pintered",
+    "hint": "Insira seu token de usuário",
+    "placeholder": "token de usuário"
+  },
   "username": {
     "label": "Nome de Usuário",
     "hint": "Insira seu nome de usuário",

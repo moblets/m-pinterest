@@ -24,6 +24,7 @@ module.exports = {
     $ionicScrollDelegate
   ) {
     
+    
     var dataLoadOptions;
     var list = {
       /**
@@ -134,29 +135,48 @@ module.exports = {
         // used by the "showDetail" function
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            var url = "http://pinterest.com/";
+            var url = "https://ismaelc-pinterest.p.mashape.com/";
             if(isDefined(data.username) && data.username !== ""){
               url += data.username;
               
-              if(isDefined(data.board) && data.board !== ""){
-                url+="/"+data.board+".rss";
-              } else {
-                url+="/feed.rss";
-              }
+              window.PDK.init({
+                  appId: "4870348519875035180", // Change this
+                  cookie: true
+              });
               
-              $mRss.load(url)
-                .then(function(response){
-                  var data = {
-                    items: []
-                  };
-                  var entries = response.data.responseData.feed.entries;
-                  if(entries.length > 0){
-                    for(var i = 0 ; i < entries.length; i ++){
-                      data.items.push(list.parseItem(entries[i]));
-                    }
+              var pins = [];
+              
+              window.PDK.me('pins', function (response) { // Make sure to change the board_id
+                if (!response || response.error) {
+                  alert('Error occurred');
+                } else {
+                  pins = pins.concat(response.data);
+                  console.log(pins);
+                  if (response.hasNext) {
+                    response.next(); // this will recursively go to this same callback
                   }
-                  list.setView(data);
-                });
+                }
+              });
+              
+              // if(isDefined(data.board) && data.board !== ""){
+              //   url+="/"+data.board+"/boards.rss";
+              // } else {
+              //   url+="/feed.rss";
+              // }
+              //
+              // $mRss.load(url)
+              //   .then(function(response){
+              //     var data = {
+              //       items: []
+              //     };
+              //     var entries = response.data.responseData.feed.entries;
+              //     if(entries.length > 0){
+              //       for(var i = 0 ; i < entries.length; i ++){
+              //         data.items.push(list.parseItem(entries[i]));
+              //       }
+              //     }
+              //     list.setView(data);
+              //   });
               
               
             }
