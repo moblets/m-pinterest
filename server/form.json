@@ -2,15 +2,18 @@
   "fields": [
     {
       "name": "username",
-      "type": "text"
+      "type": "text",
+      "required":true
     },
     {
       "name": "board",
-      "type": "text"
+      "type": "text",
+      "required":true
     },
     {
       "name": "token",
-      "type": "text"
+      "type": "text",
+      "required":true
     }
   ]
 }
