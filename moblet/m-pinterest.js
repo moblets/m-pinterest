@@ -143,6 +143,9 @@ module.exports = {
                   callback();
                 }
               })
+            } else {
+              $scope.isLoading = false;
+              $scope.noContent = true;
             }
           }
         );
