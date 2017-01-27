@@ -217,14 +217,14 @@ module.exports = {
         }
       },
       showPrev: function(detail) {
-        return detail.index > 0;
+        return isDetail(detail) ? detail.index > 0 : false;
       },
       showNext: function(detail) {
-        return detail.index !== -1 && detail.index < $scope.items.length - 1;
+        return isDetail(detail) ? detail.index !== -1 && detail.index < $scope.items.length - 1 : false;
       },
       getDetailImage: function(detail) {
         var style;
-        if(isDefined(detail.image)){
+        if(isDefined(detail) && isDefined(detail.image)){
           style = "url('" + detail.image.original.url + "')";
         } else {
           style = "";
