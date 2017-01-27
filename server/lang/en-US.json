@@ -1,22 +1,22 @@
 {
   "moblet": {
     "label": "Pinterest pro",
-    "hint": "Importe boards do pinterest",
-    "description": "Preencha os campos abaixo para importar seu board"
+    "hint": "Add a Pinterest board to your app!",
+    "description": "Fill in the fields below to import your board"
   },
   "token": {
-    "label": "Token de usuario no pintered",
-    "hint": "Insira seu token de usuário",
-    "placeholder": "token de usuário"
+    "label": "user token in Pinterest",
+    "hint": "fill your user token",
+    "placeholder": "token"
   },
   "username": {
-    "label": "Nome de Usuário",
-    "hint": "Insira seu nome de usuário",
-    "placeholder": "nome de usuário"
+    "label": "user name",
+    "hint": "your pinterest user name",
+    "placeholder": "username"
   },
   "board": {
     "label": "Board",
-    "hint": "Board do pinterest",
+    "hint": "Board",
     "placeholder": "board"
   }
 }
