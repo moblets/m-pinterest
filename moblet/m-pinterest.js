@@ -217,10 +217,10 @@ module.exports = {
         }
       },
       showPrev: function(detail) {
-        return isDetail(detail) ? detail.index > 0 : false;
+        return isDefined(detail) ? detail.index > 0 : false;
       },
       showNext: function(detail) {
-        return isDetail(detail) ? detail.index !== -1 && detail.index < $scope.items.length - 1 : false;
+        return isDefined(detail) ? detail.index !== -1 && detail.index < $scope.items.length - 1 : false;
       },
       getDetailImage: function(detail) {
         var style;
