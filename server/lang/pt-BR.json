@@ -10,12 +10,12 @@
     "placeholder": "token generator"
   },
   "username": {
-    "label": "Nome de Usuário",
+    "label": "nome de usuário",
     "hint": "Insira seu nome de usuário",
     "placeholder": "username"
   },
   "board": {
-    "label": "Pasta",
+    "label": "pasta",
     "hint": "Board do pinterest",
     "placeholder": "board"
   }
