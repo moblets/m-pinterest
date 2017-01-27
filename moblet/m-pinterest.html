@@ -1,5 +1,5 @@
 <m-moblet init="init"  is-loading="isLoading" inner-scroll="true" no-content="noContent" unavaliable="error">
-  <m-content reload="load" more="more" >
+  <m-content reload="load">
     <div class="album" ng-if="!isDetail">
       <div class="foto" ng-repeat="item in items" ng-click="goTo(item)">
         <div class="skeleton thumb-size">
@@ -24,7 +24,7 @@
       </div>
       <div class="text">
         <h3 class="title">{{detail.note}}</h3>
-        <!--<p class="description">{{detail.description}}</p>-->
+        <!--<p class="description">{{detail.note}}</p>-->
       </div>
     </div>
     <script id="malbum-zoom-modal.html" type="text/ng-template">
