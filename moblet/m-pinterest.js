@@ -134,14 +134,16 @@ module.exports = {
         // used by the "showDetail" function
         $mDataLoader.load($scope.moblet, dataLoadOptions)
           .then(function(data) {
-            var url = "https://api.pinterest.com/v1/boards/"+ data.username + "/" +  data.board + "/pins/?access_token=" + data.token;
-            url += "&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Coriginal_link%2Ccolor%2Cboard%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Cmetadata";
-            $http.get(url).then(function(pins){
-              list.setView(pins.data.data);
-              if (typeof callback === 'function') {
-                callback();
-              }
-            })
+            if(isDefined(data.username) && isDefined(data.board) && isDefined(data.token)){
+              var url = "https://api.pinterest.com/v1/boards/"+ data.username + "/" +  data.board + "/pins/?access_token=" + data.token;
+              url += "&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Coriginal_link%2Ccolor%2Cboard%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Cmetadata";
+              $http.get(url).then(function(pins){
+                list.setView(pins.data.data);
+                if (typeof callback === 'function') {
+                  callback();
+                }
+              })
+            }
           }
         );
       },
