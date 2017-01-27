@@ -3,17 +3,17 @@
     {
       "name": "username",
       "type": "text",
-      "required":true
+      "required": true
     },
     {
       "name": "board",
       "type": "text",
-      "required":true
+      "required": true
     },
     {
       "name": "token",
       "type": "text",
-      "required":true
+      "required": true
     }
   ]
 }
