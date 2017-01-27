@@ -5,9 +5,9 @@
     "description": "Adicione uma pasta (board) do Pinterest ao seu app!"
   },
   "token": {
-    "label": "Token de usuario no pintered",
+    "label": "token de usuário no Pinterest",
     "hint": "Insira seu token de usuário",
-    "placeholder": "token de usuário"
+    "placeholder": "token generator"
   },
   "username": {
     "label": "Nome de Usuário",
