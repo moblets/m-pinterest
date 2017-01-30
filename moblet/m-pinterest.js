@@ -291,21 +291,25 @@ module.exports = {
       element.parentElement.classList.add("loaded");
     }
 
-    $scope.load = list.load;
-    $scope.init = list.init;
-    $scope.nextDetail = {};
-    $scope.prevDetail = {};
-    $scope.goTo = listItem.goTo;
-    $scope.getDetailImage = listItem.getDetailImage;
-    $scope.next = listItem.next;
-    $scope.prev = listItem.prev;
-    $scope.showNext = listItem.showNext;
-    $scope.showPrev = listItem.showPrev;
-    modal.created();
+    $scope.$on("$ionicView.enter", function(){
+     
+      $scope.load = list.load;
+      $scope.init = list.init;
+      $scope.nextDetail = {};
+      $scope.prevDetail = {};
+      $scope.goTo = listItem.goTo;
+      $scope.getDetailImage = listItem.getDetailImage;
+      $scope.next = listItem.next;
+      $scope.prev = listItem.prev;
+      $scope.showNext = listItem.showNext;
+      $scope.showPrev = listItem.showPrev;
+      modal.created();
 
-    $scope.$on('$stateChangeStart', $scope.destroyModal);
-    $scope.$on('$destroy', $scope.destroyModal);
-    
-    list.init();
+      $scope.$on('$stateChangeStart', $scope.destroyModal);
+      $scope.$on('$destroy', $scope.destroyModal);
+     
+      list.init();
+    });
+
   }
 };
