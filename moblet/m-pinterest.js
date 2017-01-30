@@ -291,7 +291,7 @@ module.exports = {
       element.parentElement.classList.add("loaded");
     }
 
-    $scope.$on("$ionicView.enter", function(){
+    $scope.$on("$ionicView.afterEnter", function(event, data){
      
       $scope.load = list.load;
       $scope.init = list.init;
