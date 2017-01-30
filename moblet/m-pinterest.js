@@ -293,9 +293,7 @@ module.exports = {
 
     $scope.$on('$stateChangeStart', $scope.destroyModal);
     $scope.$on('$destroy', $scope.destroyModal);
-    $scope.$on('$ionicView.enter', list.init);
     list.init();
-
 
   }
 };
