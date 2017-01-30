@@ -275,41 +275,27 @@ module.exports = {
       return str.replace(/<[^>]+>/ig, " ");
     };
 
-    // function calculatedImageHeight() {
-    //   console.log($element);
-      
-    //   var top = parseInt(window.getComputedStyle(document.querySelector(".pane[nav-view='active'] ion-content.scroll-content"))["top"]);
-    //   var bottom = parseInt(window.getComputedStyle(document.querySelector(".pane[nav-view='active'] ion-content.scroll-content"))["bottom"]);
-    //   var currentHeight = document.documentElement.clientHeight;
-    //   var frame = currentHeight - top - bottom
-      
-    //   var descount = 5 * (100 / document.documentElement.clientWidth) + 90;
-    //   return frame - descount + "px"
-    // }
-
     window.malbumImageLoaded = function(element) {
       element.parentElement.classList.add("loaded");
     }
 
-    $scope.$on("$ionicView.afterEnter", function(event, data){
-     
-      $scope.load = list.load;
-      $scope.init = list.init;
-      $scope.nextDetail = {};
-      $scope.prevDetail = {};
-      $scope.goTo = listItem.goTo;
-      $scope.getDetailImage = listItem.getDetailImage;
-      $scope.next = listItem.next;
-      $scope.prev = listItem.prev;
-      $scope.showNext = listItem.showNext;
-      $scope.showPrev = listItem.showPrev;
-      modal.created();
+    $scope.load = list.load;
+    $scope.init = list.init;
+    $scope.nextDetail = {};
+    $scope.prevDetail = {};
+    $scope.goTo = listItem.goTo;
+    $scope.getDetailImage = listItem.getDetailImage;
+    $scope.next = listItem.next;
+    $scope.prev = listItem.prev;
+    $scope.showNext = listItem.showNext;
+    $scope.showPrev = listItem.showPrev;
+    modal.created();
 
-      $scope.$on('$stateChangeStart', $scope.destroyModal);
-      $scope.$on('$destroy', $scope.destroyModal);
-     
-      list.init();
-    });
+    $scope.$on('$stateChangeStart', $scope.destroyModal);
+    $scope.$on('$destroy', $scope.destroyModal);
+    $scope.$on('$ionicView.enter', list.init);
+    list.init();
+
 
   }
 };
