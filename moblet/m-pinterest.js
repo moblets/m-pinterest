@@ -52,7 +52,7 @@ module.exports = {
           $scope.isDetail = list.isDetail();
 
           // Disable the "more" function if the API don't have more items
-          $scope.more = (data.hasMoreItems) ? list.more : undefined;
+          $scope.more = (data.hasMoreItems && !$scope.isDetail) ? list.more : undefined;
         } else {
           $scope.error = true;
           $scope.emptyData = true;
