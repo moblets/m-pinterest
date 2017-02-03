@@ -185,7 +185,14 @@ module.exports = {
         };
         $scope.load(true);
         $scope.reload = function(){
-          $scope.load();
+
+          if($stateParams.detail !== ""){
+            $scope.load();
+          } else {
+            $rootScope.$broadcast('scroll.refreshComplete');
+            $rootScope.$broadcast('scroll.infiniteScrollComplete');
+          } 
+          
         }
       }
     };
