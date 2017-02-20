@@ -138,12 +138,18 @@ module.exports = {
             data.username !== "" && data.board !== "" && data.token !== ""){
               var url = "https://api.pinterest.com/v1/boards/"+ data.username + "/" +  data.board + "/pins/?access_token=" + data.token;
               url += "&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Coriginal_link%2Ccolor%2Cboard%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Cmetadata";
-              $http.get(url, { withCredentials: false }).then(function(pins){
-                list.setView(pins.data.data);
-                if (typeof callback === 'function') {
-                  callback();
-                }
-              })
+              if ($mPlatform.isWebView() && $cordovaNetwork.isOffline()) {
+                $scope.moblet.noContent = true;
+                $scope.moblet.isLoading = false;
+              } else {
+                $http.get(url, { withCredentials: false }).then(function(pins){
+                  list.setView(pins.data.data);
+                  if (typeof callback === 'function') {
+                    callback();
+                  }
+                })
+              }
+              
             } else {
               $scope.moblet.isLoading = false;
               $scope.moblet.noContent = true;
@@ -297,7 +303,7 @@ module.exports = {
     $scope.showNext = listItem.showNext;
     $scope.showPrev = listItem.showPrev;
     modal.created();
-
+    
     $scope.$on('$stateChangeStart', $scope.destroyModal);
     $scope.$on('$destroy', $scope.destroyModal);
     list.init();
