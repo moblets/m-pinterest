@@ -181,7 +181,7 @@ module.exports = {
        */
       init: function() {
         dataLoadOptions = {
-          cache: ($stateParams.detail !== "")
+          cache: true
         };
         $scope.load(true);
         $scope.reload = function(){
