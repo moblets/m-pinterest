@@ -15,7 +15,7 @@ module.exports = {
     $rootScope,
     $filter,
     $timeout,
-    $state,
+    $mState,
     $stateParams,
     $mDataLoader,
     $element,
@@ -40,11 +40,11 @@ module.exports = {
           $scope.items = (more) ? $scope.items.concat(data) : data;
 
           // Set "noContent" if the items lenght = 0
-          $scope.noContent = $scope.items === undefined ||
+          $scope.moblet.noContent = $scope.items === undefined ||
             $scope.items.length === 0;
 
           // set empty itens if no content
-          if ($scope.noContent) {
+          if ($scope.moblet.noContent) {
             $scope.items = [];
           }
 
@@ -69,7 +69,7 @@ module.exports = {
         }
 
         // Remove the loading animation
-        $scope.isLoading = false;
+        $scope.moblet.isLoading = false;
       },
       /**
        * Check if the view is showing a detail or the list. The function checks
@@ -125,7 +125,7 @@ module.exports = {
         if ($stateParams.detail === '') {
           $stateParams.pageTitle = null;
         }
-        $scope.isLoading = showLoader || false;
+        $scope.moblet.isLoading = showLoader || false;
         // Reset the pagination
         if (showLoader === true || showLoader === undefined) {
           dataLoadOptions.offset = 0;
@@ -138,15 +138,15 @@ module.exports = {
             data.username !== "" && data.board !== "" && data.token !== ""){
               var url = "https://api.pinterest.com/v1/boards/"+ data.username + "/" +  data.board + "/pins/?access_token=" + data.token;
               url += "&fields=id%2Clink%2Cnote%2Curl%2Cattribution%2Coriginal_link%2Ccolor%2Cboard%2Ccounts%2Ccreated_at%2Ccreator%2Cimage%2Cmedia%2Cmetadata";
-              $http.get(url).then(function(pins){
+              $http.get(url, { withCredentials: false }).then(function(pins){
                 list.setView(pins.data.data);
                 if (typeof callback === 'function') {
                   callback();
                 }
               })
             } else {
-              $scope.isLoading = false;
-              $scope.noContent = true;
+              $scope.moblet.isLoading = false;
+              $scope.moblet.noContent = true;
             }
           }
         );
@@ -181,7 +181,7 @@ module.exports = {
        */
       init: function() {
         dataLoadOptions = {
-          cache: true
+          cache: false
         };
         $scope.load(true);
         $scope.reload = function(){
@@ -243,7 +243,7 @@ module.exports = {
       goTo: function(detail) {
         $stateParams.pageTitle = detail.note;
         $stateParams.detail = detail.id;
-        $state.go('pages', {
+        $mState.go('u-moblets' ,'page', {
           detail: detail.id
         });
       }
