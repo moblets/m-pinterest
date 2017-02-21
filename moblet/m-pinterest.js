@@ -18,7 +18,9 @@ module.exports = {
     $mState,
     $stateParams,
     $mDataLoader,
+    $cordovaNetwork,
     $element,
+    $mPlatform,
     $ionicModal,
     $http,
     $ionicScrollDelegate
