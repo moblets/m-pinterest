@@ -39,7 +39,7 @@ module.exports = {
           $scope.emptyData = false;
 
           // If it was called from the "more" function, concatenate the items
-          $scope.items = (more) ? $scope.items.concat(data) : data;
+          $scope.items = isDefined($scope.items) ? $scope.items.concat(data) : data;
 
           // Set "noContent" if the items lenght = 0
           $scope.moblet.noContent = $scope.items === undefined ||
@@ -144,12 +144,7 @@ module.exports = {
                 $scope.moblet.noContent = true;
                 $scope.moblet.isLoading = false;
               } else {
-                $http.get(url, { withCredentials: false }).then(function(pins){
-                  list.setView(pins.data.data);
-                  if (typeof callback === 'function') {
-                    callback();
-                  }
-                })
+                list.pins(url, callback);
               }
               
             } else {
@@ -159,6 +154,20 @@ module.exports = {
           }
         );
       },
+
+      pins: function(url, callback){
+        $http.get(url, { withCredentials: false }).then(function(pins){
+            if(pins.data.page.next !== null){
+              list.setView(pins.data.data);
+              list.pins(pins.data.page.next, callback);
+            } else {
+              list.setView(pins.data.data);
+              if (typeof callback === 'function') {
+                callback();
+              }
+            }
+          })
+      },  
       /**
        * Load more data from the backend if there are more items.
        * - Update the offset summing the number of items
