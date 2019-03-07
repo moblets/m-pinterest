@@ -9,11 +9,6 @@
       "name": "board",
       "type": "text",
       "required": true
-    },
-    {
-      "name": "token",
-      "type": "text",
-      "required": true
     }
   ]
 }
