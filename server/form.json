@@ -2,13 +2,29 @@
   "fields": [
     {
       "name": "username",
-      "type": "text",
-      "required": true
+      "type": "input",
+      "inputType": "text",
+      "required": true,
+      "minlength": 1,
+      "maxlength": 50,
+      "validations": [
+        { "name": "required" },
+        { "name": "minLength", "value": 1 },
+        { "name": "maxLength", "value": 50 }
+      ]
     },
     {
       "name": "board",
-      "type": "text",
-      "required": true
+      "type": "input",
+      "inputType": "text",
+      "required": true,
+      "minlength": 1,
+      "maxlength": 50,
+      "validations": [
+        { "name": "required" },
+        { "name": "minLength", "value": 1 },
+        { "name": "maxLength", "value": 50 }
+      ]
     }
   ]
 }

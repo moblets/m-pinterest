@@ -2,7 +2,8 @@
   "moblet": {
     "label": "Pinterest",
     "hint": "Añada un tablero (board) de Pinterest para su aplicación!",
-    "description": "Rellene los campos abajo para importar su tablero"
+    "description": "Rellene los campos abajo para importar su tablero",
+    "version": 2
   },
   "token": {
     "label": "token de usuario en Pinterest (token generator)",

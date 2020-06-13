@@ -2,7 +2,8 @@
   "moblet": {
     "label": "Pinterest",
     "hint": "Add a Pinterest board to your app!",
-    "description": "Fill in the fields below to import your board"
+    "description": "Fill in the fields below to import your board",
+    "version": 2
   },
   "token": {
     "label": "user token in Pinterest",

@@ -2,7 +2,8 @@
   "moblet": {
     "label": "Pinterest",
     "hint": "Adicione uma pasta (board) do Pinterest ao seu app!",
-    "description": "Adicione uma pasta (board) do Pinterest ao seu app!"
+    "description": "Adicione uma pasta (board) do Pinterest ao seu app!",
+    "version": 2
   },
   "token": {
     "label": "token de usuário no Pinterest",
